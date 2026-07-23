@@ -107,7 +107,7 @@ function App() {
   return (
     <>
       <Toaster />
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-10 text-left sm:px-6">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 text-left sm:px-6 sm:py-10">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <h1 className="m-0 font-heading text-2xl font-semibold tracking-tight text-foreground">
@@ -117,7 +117,7 @@ function App() {
               Organize e acompanhe o que precisa ser feito.
             </p>
           </div>
-          <Button onClick={() => setOpen(true)} className="gap-1.5">
+          <Button onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
             <Plus className="size-4" />
             Nova atividade
           </Button>
@@ -148,7 +148,7 @@ function App() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Nome</TableHead>
-                  <TableHead>Descrição</TableHead>
+                  <TableHead className="hidden sm:table-cell">Descrição</TableHead>
                   <TableHead>Data limite</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="w-10" />
@@ -163,7 +163,7 @@ function App() {
                         {atividade.nome}
                       </TableCell>
                       <TableCell
-                        className="max-w-50 truncate text-muted-foreground"
+                        className="hidden max-w-50 truncate text-muted-foreground sm:table-cell"
                         title={atividade.descricao}
                       >
                         {atividade.descricao || "—"}
