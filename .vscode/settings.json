@@ -1,0 +1,24 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Enabled",
+            "previewLimit": 50,
+            "server": "127.0.0.1",
+            "port": 3306,
+            "sshOptions": {
+                "port": 22,
+                "host": "141.148.53.143",
+                "username": "ubuntu",
+                "privateKeyPath": "C:\\Users\\Weuller\\.ssh\\oci-key2"
+            },
+            "driver": "MariaDB",
+            "name": "Docker-server",
+            "database": "mysql",
+            "username": "root"
+        }
+    ]
+}
