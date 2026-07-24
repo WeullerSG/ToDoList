@@ -103,8 +103,8 @@ def updateActivity():
                 data.get("descricao"),
                 data.get("criadoEm") or None,
                 data.get("status") or None,
-                activity_id,
                 data.get("user_id"),
+                activity_id,
             )
         )
         conn.commit()
