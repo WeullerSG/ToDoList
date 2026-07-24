@@ -40,7 +40,7 @@ export interface Atividade {
 }
 
 function GeneralTable() {
-  const { user } = useUser()
+  const { user } = useUser();
   const [open, setOpen] = useState(false);
   const [atividades, setAtividades] = useState<Atividade[]>([]);
   const [isEditAtividades, setIsEditAtividades] = useState<Atividade | null>(
@@ -53,10 +53,13 @@ function GeneralTable() {
   }
   async function listAll() {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/list?user_id=${user?.id}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/list?user_id=${user?.id}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+      );
       const data = await res.json();
       setAtividades(data);
     } catch {}
@@ -65,7 +68,7 @@ function GeneralTable() {
   async function deleteActivity(id: number) {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/list/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/list?id=${id}`,
         {
           method: "DELETE",
         },
@@ -84,7 +87,10 @@ function GeneralTable() {
     listAll();
   }, []);
 
-  const statusStyles: Record<string, { label: string; dot: string; badge: string }> = {
+  const statusStyles: Record<
+    string,
+    { label: string; dot: string; badge: string }
+  > = {
     pendente: {
       label: "Pendente",
       dot: "bg-amber-500",
@@ -119,7 +125,10 @@ function GeneralTable() {
               Organize e acompanhe o que precisa ser feito.
             </p>
           </div>
-          <Button onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
+          <Button
+            onClick={() => setOpen(true)}
+            className="w-full gap-1.5 sm:w-auto"
+          >
             <Plus className="size-4" />
             Nova atividade
           </Button>
@@ -150,7 +159,9 @@ function GeneralTable() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Nome</TableHead>
-                  <TableHead className="hidden sm:table-cell">Descrição</TableHead>
+                  <TableHead className="hidden sm:table-cell">
+                    Descrição
+                  </TableHead>
                   <TableHead>Data limite</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="w-10" />
@@ -172,7 +183,10 @@ function GeneralTable() {
                       </TableCell>
                       <TableCell className="text-muted-foreground">
                         {atividade.data_criacao
-                          ? format(new Date(atividade.data_criacao), "dd/MM/yyyy")
+                          ? format(
+                              new Date(atividade.data_criacao),
+                              "dd/MM/yyyy",
+                            )
                           : "—"}
                       </TableCell>
                       <TableCell>
@@ -183,7 +197,12 @@ function GeneralTable() {
                               status.badge,
                             )}
                           >
-                            <span className={cn("size-1.5 rounded-full", status.dot)} />
+                            <span
+                              className={cn(
+                                "size-1.5 rounded-full",
+                                status.dot,
+                              )}
+                            />
                             {status.label}
                           </span>
                         ) : (
