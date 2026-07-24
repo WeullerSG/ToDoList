@@ -31,13 +31,14 @@ def create_activity():
     cursor = conn.cursor()
     try:
         cursor.execute(
-            """INSERT INTO atividades (nome, descricao, data_criacao, status)
-               VALUES (%s, %s, %s, %s)""",
+            """INSERT INTO atividades (nome, descricao, data_criacao, status, user_id)
+               VALUES (%s, %s, %s, %s, %s)""",
             (
                 data.get("name"),
                 data.get("descricao"),
                 data.get("criadoEm") or None,
-                data.get("status") or None
+                data.get("status") or None,
+                data.get("user_id"),
             )
         )
         conn.commit()
@@ -51,9 +52,12 @@ def create_activity():
         
 @app.route("/api/list", methods=["GET"])
 def list_all():
+    user_id = request.args.get("user_id")
+    if not user_id:
+        return jsonify([]), 200 
     conn = get_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM atividades")
+    cursor.execute("SELECT * FROM atividades WHERE user_id = %s", (user_id,))
     users = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -92,14 +96,15 @@ def updateActivity():
     try:
         cursor.execute(
             """UPDATE atividades
-               SET nome = %s, descricao = %s, data_criacao = %s, status = %s
+               SET nome = %s, descricao = %s, data_criacao = %s, status = %s, user_id = %s
                WHERE id = %s""",
             (
                 data.get("name"),
                 data.get("descricao"),
                 data.get("criadoEm") or None,
                 data.get("status") or None,
-                activity_id
+                activity_id,
+                data.get("user_id"),
             )
         )
         conn.commit()
