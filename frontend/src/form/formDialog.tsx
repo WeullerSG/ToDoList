@@ -25,9 +25,10 @@ import {
 } from "lucide-react";
 import { Calendar } from "../components/ui/calendar";
 import { toast } from "sonner";
-import type { Atividade } from "../App";
+import type { Atividade } from "../GeneralTable";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { cn } from "../lib/utils";
+import { useUser } from "@clerk/react";
 
 interface FormProps {
   open: boolean;
@@ -42,6 +43,8 @@ export function FormDialog({
   activity,
   onSuccess,
 }: FormProps) {
+    const { user } = useUser();
+
   const [formData, setFormData] = useState({ name: "", descricao: "", status:""});
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [loading, setLoading] = useState(false);
@@ -53,7 +56,10 @@ export function FormDialog({
     const payload = {
       ...formData,
       criadoEm: date ? format(date, "yyyy-MM-dd") : "",
+      user_id: user?.id
     };
+
+    console.log("🚀 handleSubmit ~ user?.id:", user?.id, "payload:", payload);
 
     if (!activity) {
       try {
@@ -101,15 +107,15 @@ export function FormDialog({
 
   useEffect(() => {
     if (activity) {
-      setFormData({ name: activity.nome, descricao: activity.descricao, status: activity.status });
+      setFormData({ name: activity.nome, descricao: activity.descricao, status: activity.status});
       setDate(
         activity.data_criacao ? new Date(activity.data_criacao) : undefined,
       );
     } else {
-      setFormData({ name: "", descricao: "", status: "" });
+      setFormData({ name: "", descricao: "", status: ""});
       setDate(undefined);
     }
-  }, [activity, open]);
+  }, [activity, open, user]);
 
   const items = [
     { label: "Pendente", value: "pendente", dot: "bg-amber-500" },
@@ -142,6 +148,7 @@ export function FormDialog({
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, name: e.target.value }))
                 }
+                required
               />
             </Field>
 
@@ -172,6 +179,7 @@ export function FormDialog({
                   onValueChange={(value) =>
                     setFormData((p) => ({ ...p, status: value }))
                   }
+                  required
                 >
                   <SelectTrigger id="status" className="h-9 w-full">
                     <SelectValue placeholder="Selecione" />
