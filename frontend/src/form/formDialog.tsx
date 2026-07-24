@@ -59,8 +59,6 @@ export function FormDialog({
       user_id: user?.id
     };
 
-    console.log("🚀 handleSubmit ~ user?.id:", user?.id, "payload:", payload);
-
     if (!activity) {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/list?user_id=${user?.id}`, {
@@ -82,7 +80,7 @@ export function FormDialog({
     } else {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/list/${activity.id}`,
+          `${import.meta.env.VITE_API_URL}/api/list?id=${activity.id}&user_id=${user?.id}`,
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
